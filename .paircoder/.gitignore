@@ -1,0 +1,13 @@
+# Runtime artifacts — do not commit
+.cli_version
+bypass_log.jsonl
+cache/**
+engage/runs/*.log
+feedback/**
+history/benchmarks/matrix/**
+history/bypass_log.jsonl
+hooks/**
+reviews/**
+telemetry/**
+data/
+history/
