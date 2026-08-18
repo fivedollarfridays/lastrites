@@ -283,4 +283,3 @@ This constitutes explicit authorization for background dispatch. The PairCoder f
   project content belongs in `.paircoder/context/` (project.md, workflow.md,
   state.md), NOT here.
 -->
-

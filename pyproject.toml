@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lastrites"
+version = "0.1.0"
+description = "Local-first credential-estate watchdog: detection and escalation."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+[project.optional-dependencies]
+# Pinned so local checks match CI exactly — the LR1 CI failure was ruff
+# version drift (a newer ruff flagged UP041 that an older local missed).
+dev = [
+    "pytest>=8",
+    "pytest-xdist>=3",
+    "ruff==0.15.9",
+]
+
+[project.scripts]
+lastrites = "lastrites.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["lastrites*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
