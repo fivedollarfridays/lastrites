@@ -1,0 +1,13 @@
+# mock crontab for lastrites scanner tests -- every value here is mock-*
+SHELL=/bin/sh
+PATH=/usr/local/bin:/usr/bin:/bin
+MAILTO=ops@example.invalid
+
+CLOUDFLARE_API_TOKEN=mock-cf-7f3a2b91c4d6e805a1b2c3d4e5f60718
+
+0 3 * * * /usr/local/bin/backup.sh
+*/15 * * * * BACKUP_WEBHOOK_SECRET=mock-wh-1a9c4e77b2d05f6381ea /usr/local/bin/ping.sh
+@reboot /usr/local/bin/boot.sh
+
+* * * bogus-too-few-fields
+this line is not a crontab entry at all

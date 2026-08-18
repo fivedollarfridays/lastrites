@@ -168,3 +168,25 @@ containment:
   - api.trello.com
   - github.com
   - pypi.org
+overrides:
+  pack.excludes:
+    value:
+    - .git
+    - .venv
+    - __pycache__
+    - node_modules
+    - dist
+    - build
+    - '*.log'
+    - '*.bak'
+    - '*.egg-info'
+    - .pytest_cache
+    - .mypy_cache
+    - .ruff_cache
+    - htmlcov
+    - .coverage
+    reason: 'preserving your local override [''.git'', ''.venv'', ''__pycache__'',
+      ''node_modules'', ''dist'', ''build'', ''*.log'', ''*.bak'', ''*.egg-info'',
+      ''.pytest_cache'', ''.mypy_cache'', ''.ruff_cache'', ''htmlcov'', ''.coverage'']
+      (canonical: [''.git'', ''.venv'', ''__pycache__'', ''node_modules'', ''dist'',
+      ''build'', ''*.log'', ''*.bak'']); add rationale or delete the override'

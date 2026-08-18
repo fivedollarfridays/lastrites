@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.mock.agent</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/local/bin/mock-agent</string>
+		<string>--verbose</string>
+	</array>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>PATH</key>
+		<string>/usr/local/bin:/usr/bin:/bin</string>
+		<key>CLOUDFLARE_API_TOKEN</key>
+		<string>mock-cf-7f3a2b91c4d6e805a1b2c3d4e5f60718</string>
+		<key>MOCK_SERVICE_KEY</key>
+		<string>mock-sk-6b1d92f4083ae57c2d6f1b9e</string>
+		<key>StartCount</key>
+		<integer>4</integer>
+	</dict>
+	<key>StartInterval</key>
+	<integer>300</integer>
+</dict>
+</plist>
