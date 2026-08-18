@@ -16,3 +16,8 @@ estate.*.json
 .paircoder/reviews/**
 .paircoder/telemetry/**
 # <<< paircoder managed
+
+# paircoder internal context — never public
+.claude/agent-memory/
+.paircoder/context/
+.paircoder/tasks/
