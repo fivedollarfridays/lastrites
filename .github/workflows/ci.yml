@@ -30,7 +30,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .[dev]
-          pip install pytest-xdist ruff
 
       - name: Lint with ruff
         run: ruff check lastrites tests
@@ -55,5 +54,8 @@ jobs:
       # No continue-on-error: a secret finding fails the build, by design.
       - uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
         env:
+          # Required since gitleaks-action v2: the action reads the PR diff
+          # through the API. This is the auto-provisioned, read-scoped token.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_ENABLE_UPLOAD_ARTIFACT: "false"
           GITLEAKS_ENABLE_SUMMARY: "true"

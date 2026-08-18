@@ -70,7 +70,7 @@ def test_send_normalizes_an_http_error_status_into_a_response(monkeypatch):
 
 def test_send_raises_probe_timeout_on_socket_timeout(monkeypatch):
     def fake_urlopen(req, timeout=None):
-        raise socket.timeout("timed out")
+        raise TimeoutError("timed out")
 
     _install_urlopen(monkeypatch, fake_urlopen)
     with pytest.raises(ProbeTimeout):

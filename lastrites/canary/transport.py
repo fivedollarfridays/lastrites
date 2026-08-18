@@ -67,10 +67,10 @@ def send(request: ProbeRequest, timeout: float = 5.0) -> ProbeResponse:
             return ProbeResponse(status=response.status, body=response.read())
     except urllib.error.HTTPError as exc:
         return ProbeResponse(status=exc.code, body=exc.read())
-    except socket.timeout as exc:
+    except TimeoutError as exc:
         raise ProbeTimeout(str(exc)) from exc
     except urllib.error.URLError as exc:
-        if isinstance(exc.reason, socket.timeout):
+        if isinstance(exc.reason, TimeoutError):
             raise ProbeTimeout(str(exc.reason)) from exc
         if isinstance(exc.reason, socket.gaierror):
             raise ProbeDNSError(str(exc.reason)) from exc
