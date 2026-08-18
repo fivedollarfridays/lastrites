@@ -1,0 +1,25 @@
+# gitleaks config for lastrites.
+#
+# This repo is a credential SCANNER. Its test suite must contain
+# secret-SHAPED fixtures — a mock JWT, a mock Cloudflare token, a fake PEM —
+# because that is the exact input the scanner is built to find. gitleaks
+# flags them on shape regardless of the value being fake.
+#
+# The allowlist is scoped to TEST FIXTURE PATHS ONLY. Nothing under
+# lastrites/ (the shipped package) is ever exempt: a secret-shaped string in
+# real code is a real finding and fails the build. gitleaks treats these
+# path patterns as an OR set, so keeping the scope to test paths — rather
+# than value-pattern regexes that would exempt any file — is the tight
+# choice. Fixtures still carry explicit mock/FAKE markers by convention;
+# this config just stops their shape from failing CI.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Deliberately secret-shaped test fixtures, never real values."
+paths = [
+    '''tests/scan/.*\.py$''',
+    '''tests/core/.*\.py$''',
+    '''tests/fixtures/.*''',
+]
