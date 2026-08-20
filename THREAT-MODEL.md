@@ -175,6 +175,58 @@ pre-existing literal `ntfy.sh/<topic>` URL assertion in
 `tests/canary/test_providers.py` from LR1.3 — `lastrites/sweep/`,
 2026-08-18.*
 
+**8. "Escalation sent" is not "escalation received" — and nobody is left
+to notice the difference.** Every sharp edge above concerns detecting the
+right thing. This one concerns the last inch, and it is the only failure
+mode in this document that is *silent by construction*: the moment
+lastrites matters most is the moment its owner is unavailable to observe
+it working. A pager call that returns 200, an SMTP handoff that is
+accepted, a webhook that queues — none of those are evidence that a human
+read anything. They are evidence that a machine accepted responsibility
+for trying. For an ordinary monitor that gap is an annoyance, because the
+operator notices the silence eventually. For a dead-man's switch the
+operator is definitionally not noticing anything, so the gap is the whole
+product failing quietly at the one moment it was built for.
+
+Therefore: **every escalation channel owes a destination-side receipt, and
+an unreceipted escalation is itself an incident that escalates further.**
+Concretely — the send attempt and the confirmed arrival are two separate
+records with two separate timestamps; a send with no arrival inside its
+window fails over to the next channel rather than being counted as
+delivered; and an all-channels-unreceipted state is the loudest verdict
+the system has, because it means the estate's last words went nowhere.
+
+Two design consequences that are easy to get wrong:
+
+*The receipt window is a function of the confirming party's cadence, not
+of our impatience.* A verification deadline shorter than the interval at
+which the confirming signal can physically arrive manufactures false
+alarms and trains the reader to ignore real ones. The sibling ops estate
+demonstrated this on 2026-08-20 in miniature: a delivery verifier was
+given a 45-minute window while the capture rail it read from synced once
+daily, so its first live probe alarmed loudly about an email that had in
+fact arrived two seconds after sending. The rail was right; the deadline
+was wrong. Here the confirming party is a human being contacted about a
+death or a disappearance — a person under duress, possibly at a funeral,
+possibly asleep in another timezone. Their cadence is measured in days.
+Windows tuned to machine timescales would page the *backup* recipients
+about a primary recipient who was merely driving.
+
+*A receipt proves arrival, never comprehension, and must never be treated
+as consent.* An opened email is not an heir who understands what they now
+hold. v1 should record arrival and stop claiming there; anything stronger
+(acknowledgement, acceptance of custody) is a separate, explicit act by a
+human, and conflating the two would let the system report a successful
+handover that never happened.
+
+*Status: design intent, not verified. No code in this repo implements
+receipts today, and §7's escalation layer stops at the send. The reference
+implementation of the pattern lives in the sibling ops estate
+(`lib/email_verify.py` — send-and-verify-or-die-loud, destination
+confirmation via an independent capture rail, one alarm per lost send,
+deadline pinned by test against the capture cadence) and is worth reading
+before this is built here, including its first-day miscalibration above.*
+
 ## Evidence discipline
 
 Docs in this repo mark claims as **verified** only with the command, the
